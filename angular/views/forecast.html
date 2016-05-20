@@ -1,0 +1,54 @@
+<html ng-app="weatherApp">
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />	
+</head>
+<body ng-controller="weatherController">			
+	<div class="container">
+		<h2>Get weather by ZipCode</h2>
+		<br/>
+		<div class="row">
+			<form role="form" class="form-vertical"  name="forecastForm">	
+				<div class="form-group col-md-4">		        	
+					<input name="zipCode" placeholder="zip code..." class="form-control" ng-model="zipCode" maxlength="5" required ng-pattern="/^\d{5}$/">
+				</div>
+				<div class="form-group col-md-2">	
+					<button value="Go" class="btn btn-primary" ng-click="getForecast()" ng-disabled="forecastForm.zipCode.$invalid">Go</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="row">
+			<div class="col-md-2" ng-show="forecast.city">
+				<h3>City Details:</h3>
+				<span><strong>{{forecast.city.name}}</strong></span><br/>
+				<span>Longitude: {{forecast.city.coord.lon}}</span><br/>
+				<span>Latitude: {{forecast.city.coord.lat}}</span>
+			</div>
+			<div class="col-md-4" ng-show="forecast.list.length > 0">				
+				<h3>Forecast:</h3>				
+				<div ng-repeat="item in forecast.list">	
+					<div class="panel panel-default">				
+						<div class='panel-heading'>
+							{{item.dt | date:'EEEE, MMM dd'}}
+						</div>					
+						<div class="panel-body">
+							<div class="col-md-2">
+								<img ng-src="{{item.weather[0].icon}}" title="{{item.weather[0].description}}"/>
+							</div>
+							<div class="col-md-4 align='right'">
+								<span>High: {{item.temp.max}}</span><br/>
+								<span>Low: {{item.temp.min}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.0/angular.min.js"></script>
+	<script src="js/weatherApp.js"></script>
+	<script src="js/weatherController.js"></script> <!-- <script src... /> doesn't work, specify </script> -->	
+</body>
+</html>
